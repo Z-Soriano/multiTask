@@ -41,7 +41,8 @@ body {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .nav-links a {
@@ -71,7 +72,15 @@ body{
     cursor: pointer;
     z-index: 1000;
 }
+.elapsedTime{
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    font-size: 24pt;
+    transform: translate(-50%,-50%);
+    color: white;
 
+}
 .correct {
   background-color: green;
 }

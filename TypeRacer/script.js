@@ -6,6 +6,7 @@ const rightSide = document.getElementById("rightText")
 let whichRL = "Lwords.json"
 let start = 0
 let end = 0
+const elapsedTime = document.getElementById("elapsedTime")
 function nextWord(RL) {
     if(RL){
         whichRL = "Lwords.json"
@@ -18,7 +19,7 @@ function nextWord(RL) {
     .then(res => res.json())
     .then(words => {
       let randomWord = words[Math.floor(Math.random() * words.length)];
-      for(let i=0; i<4; i++){
+      for(let i=0; i<14; i++){
         randomWord = randomWord + " " +words[Math.floor(Math.random() * words.length)];
       }
       targetText = randomWord;
@@ -62,8 +63,9 @@ document.addEventListener("keydown", (event) => {
 
   if (typedText === targetText) {
     end = Date.now()
-    let timeSpent = end-start
-    alert(timeSpent)
+    let timeSpent = 15/((end-start)/1000/60)
+    timeSpent = Math.round(timeSpent*100)/100
+    elapsedTime.textContent = "WPM: " + timeSpent
     if(whichRL=="Lwords.json"){
         nextWord(true);
     }
