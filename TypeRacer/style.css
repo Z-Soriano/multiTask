@@ -9,6 +9,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
+    margin: 0;
+  overflow-x: hidden;
 }
 
 .container {
@@ -39,10 +41,16 @@ body {
 }
 
 .nav-links {
-    display: flex;
-    list-style: none;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
 }
 
 .nav-links a {
@@ -56,25 +64,38 @@ body {
 .nav-links a:hover {
     opacity: 0.8;
 }
-
+.nav-item:last-child .dropdown-content {
+  right: 0;
+  left: auto;
+}
 body{
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
-.quote{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    font-size:32pt;
-
-    transform: translate(-50%,-50%);
-    color: black;
-    border: none;
-    cursor: pointer;
-    z-index: 1000;
+.quote {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100vw - 2rem);
+  max-width: 500px;
+  box-sizing: border-box;
+  font-size: clamp(1rem, 4vw, 2rem);
+  line-height: 1.4;
+  color: black;
+  z-index: 1000;
+  padding: 0 1rem;
 }
 .elapsedTime{
     position: fixed;
-    top: 70%;
+    top: 80%;
+    left: 50%;
+    font-size: 24pt;
+    transform: translate(-50%,-50%);
+    color: white;
+}
+.accuracy{
+    position: fixed;
+    top: 85%;
     left: 50%;
     font-size: 24pt;
     transform: translate(-50%,-50%);
@@ -89,4 +110,63 @@ body{
 }
 .current {
   text-decoration: underline;
+}
+.onLeft {
+  left: 5vw;
+  transform: translateY(-50%);
+  text-align: left;
+}
+
+.onRight {
+  right: 5vw;
+  left: auto;
+  transform: translateY(-50%);
+  text-align: right;
+}
+/* Style the dropdown button */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer; /* */
+  padding: 12px 16px;
+  width: 160px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative; /* */
+  display: inline-block;
+  
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none; /* */
+  position: absolute; /* */
+  background-color: #f9f9f9;
+  width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block; /* */
+  transition: background-color 0.3s ease;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: gray; /* */
+}
+
+/* Class to show the dropdown content (added by JS) */
+.show {
+  display: block; /* */
 }

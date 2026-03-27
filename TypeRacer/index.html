@@ -3,19 +3,52 @@
     <head>
     <link rel="stylesheet" href="style.css">
     <title>MiniTypeRacer</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <nav class="navbar">
         <div class="container">
+            <!--
             <ul class="nav-links">
-                <li><a class="leftText" id="leftText">Left Side Text</a></li>
+                <li><a class="leftText" id="leftText">Left Side Text</a></li> 
                 <li><a class="rightText" id="rightText">Right Side Text</a></li>
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropdown-btn">Left Half</button>
+                    <div class="dropdown-content" id="dropdown-menu">
+                        <a class="leftText" id="leftText">Left Side Typing</a>
+                        <a class="rightText" id="rightText">Right Side Typing</a>
+                    </div>
+                </div>
+            </ul>
+            <ul class="nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropdown-btn">Left Half</button>
+                    <div class="dropdown-content" id="dropdown-menu">
+                        <a class="leftText" id="leftText">Left Side Typing</a>
+                        <a class="rightText" id="rightText">Right Side Typing</a>
+                    </div>
+                </div>
+            </ul> -->
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="dropbtn" id="dropdown-btn">Left Half</button>
+                        <div class="dropdown-content" id="dropdown-menu">
+                            <a class="leftText" id="leftText">Left Side Typing</a>
+                            <a class="rightText" id="rightText">Right Side Typing</a>
+                            <a class="justText" id="justText">Full Keyboard</a>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
         </nav>
         <p id="quote" class="quote"></p>
         <p id="elapsedTime" class="elapsedTime">WPM: </p>
+        <p id="accuracy" class="accuracy">Accuracy: </p>
         
+
+
         <script src="script.js"></script>
     </body>
 </html>
