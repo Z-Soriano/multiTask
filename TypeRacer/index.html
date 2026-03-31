@@ -8,35 +8,15 @@
     <body>
         <nav class="navbar">
         <div class="container">
-            <!--
-            <ul class="nav-links">
-                <li><a class="leftText" id="leftText">Left Side Text</a></li> 
-                <li><a class="rightText" id="rightText">Right Side Text</a></li>
-                <div class="dropdown">
-                    <button class="dropbtn" id="dropdown-btn">Left Half</button>
-                    <div class="dropdown-content" id="dropdown-menu">
-                        <a class="leftText" id="leftText">Left Side Typing</a>
-                        <a class="rightText" id="rightText">Right Side Typing</a>
-                    </div>
-                </div>
-            </ul>
-            <ul class="nav-links">
-                <div class="dropdown">
-                    <button class="dropbtn" id="dropdown-btn">Left Half</button>
-                    <div class="dropdown-content" id="dropdown-menu">
-                        <a class="leftText" id="leftText">Left Side Typing</a>
-                        <a class="rightText" id="rightText">Right Side Typing</a>
-                    </div>
-                </div>
-            </ul> -->
             <ul class="nav-links">
                 <li class="nav-item">
                     <div class="dropdown">
-                        <button class="dropbtn" id="dropdown-btn">Left Half</button>
+                        <button class="dropbtn" id="dropdown-btn">Games</button>
                         <div class="dropdown-content" id="dropdown-menu">
                             <a class="leftText" id="leftText">Left Side Typing</a>
                             <a class="rightText" id="rightText">Right Side Typing</a>
                             <a class="justText" id="justText">Full Keyboard</a>
+                            <a class="btn" id="btn">Mini AimTrainer</a>
                         </div>
                     </div>
                 </li>
@@ -46,7 +26,21 @@
         <p id="quote" class="quote"></p>
         <p id="elapsedTime" class="elapsedTime">WPM: </p>
         <p id="accuracy" class="accuracy">Accuracy: </p>
+         <p type="tmr" class="tmr" id="tmr">Timer</p>
+
+        <button type="circle" class="circle correct" id="circle">
+            Click Me!
+        </button>
+        <button type="circle" class="circle incorrect" id="redCircle">
+            Click Me!
+        </button>
         
+        <p type="score" class="score" id="score">
+            Score: 0
+        </p>
+        <p type="score" class="finalscore" id="finalscore">
+            Score: 0
+        </p>
 
 
         <script src="script.js"></script>
