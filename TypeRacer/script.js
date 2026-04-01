@@ -3,6 +3,8 @@ let targetText = "";
 let whichRL = "Lwords.json" //standard json is leftside json file
 let start = 0
 let end = 0
+let circleRL = null
+let typed = null
 
 const quoteEl = document.getElementById("quote"); //what user will type
 //dropdown buttons for game versions
@@ -42,10 +44,28 @@ defaultState()
 leftSide.addEventListener("click",()=>{
     defaultState()
     nextWord(true)
+
     quoteEl.style.display = "inline-block"
 
     elapsedTime.style.display = "inline-block"
     accuracyId.style.display = "inline-block"
+    
+    end = 0
+
+    circleRL = "Right"
+    finalscore.style.display = "none";
+    /*
+    circle.style.display = "inline-block";
+    redCircle.style.display = "inline-block";
+    */
+    timerDisplay.style.display = "inline-block"
+    scoreboard.style.display = "inline-block"
+    /*
+    totalTime = 10000;
+    timerInterval = setInterval(updateTimer, 10);
+    times = [];
+    */
+    randomPos(null, circleRL)
 });
 
 rightSide.addEventListener("click",()=>{
@@ -55,6 +75,23 @@ rightSide.addEventListener("click",()=>{
 
     elapsedTime.style.display = "inline-block"
     accuracyId.style.display = "inline-block"
+    
+    end = 0
+
+    circleRL = "Left"
+    finalscore.style.display = "none";
+    /*
+    circle.style.display = "inline-block";
+    redCircle.style.display = "inline-block";
+    */
+    timerDisplay.style.display = "inline-block"
+    scoreboard.style.display = "inline-block"
+    /*
+    totalTime = 10000;
+    timerInterval = setInterval(updateTimer, 10);
+    times = [];
+    */
+    randomPos(null, circleRL)
 });
 
 justText.addEventListener("click",()=>{
@@ -171,29 +208,41 @@ function getCorrectCharCount() {
 
 //listens if a letter or space is pressed while length of typedtext is not equal to targetText
 document.addEventListener("keydown", (event) => {
-  if (!targetText) return;
+  if (!targetText || end!=0) return;
   //if (event.key === "Backspace") {
   //  typedText = typedText.slice(0, -1);
   /*} else */if ((event.key.length === 1 || event.key == "Space") && typedText.length < targetText.length) {
     typedText += event.key;
+    typed = true
+  }
+  if(typed==true && circle.style.display == "none"){
+    circle.style.display = "inline-block"
+    redCircle.style.display = "inline-block"
   }
   if(typedText.length==1){
     start = Date.now() //captures the time the first key is pressed
   }
   renderText();
   //calculate wpm & accuracy
-  if (typedText.length === targetText.length) {
+  if (typedText.length == targetText.length) {
     end = Date.now()
-    let timeSpent = (targetText.length/5)/((end-start)/1000/60)
+    let seconds = ((end-start)/1000)
+    let timeSpent = (targetText.length/5)/ ((seconds)/60)
     timeSpent = Math.round(timeSpent*100)/100
     let accuracy = getCorrectCharCount()/targetText.length
     accuracy *= 100
     accuracy = Math.round(accuracy*100)/100
     elapsedTime.textContent = "WPM: " + timeSpent
     accuracyId.textContent = "Accuracy: " + accuracy + "%"
+    timerDisplay.textContent = seconds
 
+    if(circle.style.display!="none"){
+      circle.style.display = "none"
+      redCircle.style.display = "none"
+      typed = false
+    }
     //continues to the next set of words from the same json file we just read
-    if(whichRL=="Lwords.json"){
+    /*if(whichRL=="Lwords.json"){
         nextWord(true);
     }
     else if(whichRL=="Rwords.json"){
@@ -201,7 +250,7 @@ document.addEventListener("keydown", (event) => {
     }
     else{
         nextWord();
-    }
+    }*/
   }
 });
 //aimtrain logic
@@ -220,6 +269,7 @@ function updateTimer() {
   timerDisplay.textContent = seconds + ":" + milliseconds;
   //stops timer
   if(timerDisplay.style.display == "none"){
+    timerDisplay.textContent = "0:00"
     return;
   }
   if (totalTime > 0) {
@@ -235,13 +285,16 @@ function updateTimer() {
     return;
   }
 }
-function randomPos(greenOrRed){
+function randomPos(greenOrRed,LRcircles){
 
   let randomTop = Math.floor(Math.random() * 80+10);
-  let randomLeft = Math.floor(Math.random() * 80+10);
+  let randomLeft = Math.floor(Math.random() * 40+50);
   let RrandomTop = Math.floor(Math.random() * 80+10);
-  let RrandomLeft = Math.floor(Math.random() * 80+10);
-
+  let RrandomLeft = Math.floor(Math.random() * 40+50);
+  if(LRcircles=="Left"){
+    randomLeft = Math.floor(Math.random() * 40+10);
+    RrandomLeft = Math.floor(Math.random() * 40+10);
+  }
   circle.style.top = randomTop + "%";
   circle.style.left = randomLeft + "%";
   redCircle.style.top = RrandomTop + "%";
@@ -259,30 +312,9 @@ function randomPos(greenOrRed){
 
 }
 
-
 circle.addEventListener("mouseover",()=>{
-  randomPos("green")
+  randomPos("green", circleRL)
 });
 redCircle.addEventListener("mouseover",()=>{
-  randomPos("red")
+  randomPos("red", circleRL)
 });
-function gameLoop(whichGame){
-  //game logics
-
-
-  //pick which game
-  /*
-  if (whichGame == "Left"){
-    nextWord(true)
-  }
-  elif(whichGame=="Right"){
-    nextWord(false)
-  }
-  elif(whichGame=="Center"){
-    nextWord()
-  }
-  elif(whichGame=="aim"){
-    randomPos()
-  }
-    */
-}
