@@ -6,6 +6,12 @@ let end = 0
 let circleRL = null
 let typed = null
 
+//aimtrain logic
+let totalTime = 30000;
+let timerInterval;
+let times = [];
+let wrongTimes = [];
+
 const quoteEl = document.getElementById("quote"); //what user will type
 //dropdown buttons for game versions
 const leftSide = document.getElementById("leftText") 
@@ -14,6 +20,8 @@ const justText = document.getElementById("justText")
 //stats
 const elapsedTime = document.getElementById("elapsedTime")
 const accuracyId = document.getElementById("accuracy")
+const timerDisplay = document.getElementById("tmr");
+const scoreboard = document.getElementById("score");
 
 
 // Get the elements
@@ -24,20 +32,34 @@ const dropdownMenu = document.getElementById("dropdown-menu");
 const startBtn = document.getElementById("btn");
 const circle = document.getElementById("circle");
 const redCircle = document.getElementById("redCircle");
-const timerDisplay = document.getElementById("tmr");
-const scoreboard = document.getElementById("score");
-const finalscore = document.getElementById("finalscore");
+
 const delta = document.getElementById("delta");
 
+function toggleItem(id, show) {
+  const el = document.getElementById(id);
+  el.style.visibility = show ? "visible" : "hidden";
+  // keeps the slot but hides the content
+}
+
+/* Usage:
+toggleItem("slot-wpm", false);
+toggleItem("slot-accuracy", false);
+toggleItem("slot-score", true);
+toggleItem("slot-timer", true);
+*/
 function defaultState(){
-  elapsedTime.style.display = "none"
-  accuracyId.style.display = "none"
+  elapsedTime.style.visibility = "hidden"
+  elapsedTime.textContent = "WPM: 0"
+  accuracyId.style.visibility = "hidden"
+  accuracyId.textContent = "Accuracy: 0%"
   quoteEl.style.display = "none"
   circle.style.display = "none";
   redCircle.style.display = "none"
-  timerDisplay.style.display = "none"
-  scoreboard.style.display = "none"
-  finalscore.style.display = "none"
+  timerDisplay.style.visibility = "hidden"
+  timerDisplay.textContent = "Timer: 0:00"
+  scoreboard.style.visibility = "hidden"
+  scoreboard.textContent = "Score: 0"
+  clearInterval(timerInterval)
 }
 defaultState()
 //game listener
@@ -47,19 +69,18 @@ leftSide.addEventListener("click",()=>{
 
     quoteEl.style.display = "inline-block"
 
-    elapsedTime.style.display = "inline-block"
-    accuracyId.style.display = "inline-block"
+    elapsedTime.style.visibility = "visible"
+    accuracyId.style.visibility = "visible"
     
     end = 0
 
     circleRL = "Right"
-    finalscore.style.display = "none";
     /*
     circle.style.display = "inline-block";
     redCircle.style.display = "inline-block";
     */
-    timerDisplay.style.display = "inline-block"
-    scoreboard.style.display = "inline-block"
+    timerDisplay.style.visibility = "visible"
+    scoreboard.style.visibility = "visible"
     /*
     totalTime = 10000;
     timerInterval = setInterval(updateTimer, 10);
@@ -73,19 +94,18 @@ rightSide.addEventListener("click",()=>{
     nextWord(false)
     quoteEl.style.display = "inline-block"
 
-    elapsedTime.style.display = "inline-block"
-    accuracyId.style.display = "inline-block"
+    elapsedTime.style.visibility = "visible"
+    accuracyId.style.visibility = "visible"
     
     end = 0
 
     circleRL = "Left"
-    finalscore.style.display = "none";
     /*
     circle.style.display = "inline-block";
     redCircle.style.display = "inline-block";
     */
-    timerDisplay.style.display = "inline-block"
-    scoreboard.style.display = "inline-block"
+    timerDisplay.style.visibility = "visible"
+    scoreboard.style.visibility = "visible"
     /*
     totalTime = 10000;
     timerInterval = setInterval(updateTimer, 10);
@@ -99,19 +119,20 @@ justText.addEventListener("click",()=>{
     nextWord()
     quoteEl.style.display = "inline-block"
 
-    elapsedTime.style.display = "inline-block"
-    accuracyId.style.display = "inline-block"
+    elapsedTime.style.visibility = "visible"
+    accuracyId.style.visibility = "visible"
+    end = 0
+    circleRL = "Center"
 });
 startBtn.addEventListener("click", function() {
     defaultState()
-    finalscore.style.display = "none";
     circle.style.display = "inline-block";
     redCircle.style.display = "inline-block";
-    timerDisplay.style.display = "inline-block"
-    scoreboard.style.display = "inline-block"
-
+    timerDisplay.style.visibility = "visible"
+    scoreboard.style.visibility = "visible"
     totalTime = 10000;
     timerInterval = setInterval(updateTimer, 10);
+    
     times = [];
     randomPos();
   });
@@ -135,28 +156,19 @@ function nextWord(RL) {
     whichRL = "Lwords.json"
     quoteEl.classList.add("onLeft")
     quoteEl.classList.remove("onRight")
-    elapsedTime.classList.add("onLeft")
-    elapsedTime.classList.remove("onRight")
-    accuracyId.classList.add("onLeft")
-    accuracyId.classList.remove("onRight")
+
   }
   else if(RL == false){ //right side
       whichRL = "Rwords.json"
       quoteEl.classList.add("onRight")
       quoteEl.classList.remove("onLeft")
-      elapsedTime.classList.add("onRight")
-      elapsedTime.classList.remove("onLeft")
-      accuracyId.classList.add("onRight")
-      accuracyId.classList.remove("onLeft")
+
   }
   else if(RL == null){ //full
     whichRL = "words.json"
     quoteEl.classList.remove("onLeft")
     quoteEl.classList.remove("onRight")
-    elapsedTime.classList.remove("onLeft")
-    elapsedTime.classList.remove("onRight")
-    accuracyId.classList.remove("onLeft")
-    accuracyId.classList.remove("onRight")
+
   }
   fetch(whichRL) //retrieve 14 words from a json file and puts it into targetText, then renders the text
   .then(res => res.json())
@@ -215,12 +227,14 @@ document.addEventListener("keydown", (event) => {
     typedText += event.key;
     typed = true
   }
-  if(typed==true && circle.style.display == "none"){
+  if(typed==true && circle.style.display == "none" && circleRL!="Center"){
     circle.style.display = "inline-block"
     redCircle.style.display = "inline-block"
   }
   if(typedText.length==1){
     start = Date.now() //captures the time the first key is pressed
+    totalTime = 0
+    timerInterval = setInterval(updateReverseTimer, 10);
   }
   renderText();
   //calculate wpm & accuracy
@@ -234,12 +248,10 @@ document.addEventListener("keydown", (event) => {
     accuracy = Math.round(accuracy*100)/100
     elapsedTime.textContent = "WPM: " + timeSpent
     accuracyId.textContent = "Accuracy: " + accuracy + "%"
-    timerDisplay.textContent = seconds
-
+    typed = false
     if(circle.style.display!="none"){
       circle.style.display = "none"
       redCircle.style.display = "none"
-      typed = false
     }
     //continues to the next set of words from the same json file we just read
     /*if(whichRL=="Lwords.json"){
@@ -253,11 +265,7 @@ document.addEventListener("keydown", (event) => {
     }*/
   }
 });
-//aimtrain logic
-let totalTime = 30000;
-let timerInterval;
-let times = [];
-let wrongTimes = [];
+
 
 function updateTimer() {
   let seconds = Math.floor(totalTime / 1000);
@@ -266,22 +274,28 @@ function updateTimer() {
 
   milliseconds = milliseconds < 10 ? "0" + milliseconds : milliseconds;
 
-  timerDisplay.textContent = seconds + ":" + milliseconds;
-  //stops timer
-  if(timerDisplay.style.display == "none"){
-    timerDisplay.textContent = "0:00"
-    return;
-  }
+  timerDisplay.textContent = "Timer: " + seconds + ":" + milliseconds;
+  
   if (totalTime > 0) {
     totalTime -= 10; 
   } else {
     clearInterval(timerInterval);
-    timerDisplay.textContent = "0:00";
-    finalscore.style.display = "inline-block";
-    circle.style.display = "none";
-    redCircle.style.display = "none";
-    timerDisplay.textContent = "Timer"
-    finalscore.textContent = "Score: " + (times.length - wrongTimes.length)
+    circle.style.display = "none"
+    redCircle.style.display = "none"
+    return;
+  }
+}
+function updateReverseTimer(){
+  if (typedText.length!=targetText.length) {
+    totalTime += 10; 
+    let seconds = Math.floor(totalTime / 1000);
+    let milliseconds = Math.floor((totalTime % 1000) / 10);
+    milliseconds = milliseconds < 10 ? "0" + milliseconds : milliseconds;
+
+    timerDisplay.textContent = "Timer: " + seconds + ":" + milliseconds;
+
+  } else {
+    clearInterval(timerInterval);
     return;
   }
 }

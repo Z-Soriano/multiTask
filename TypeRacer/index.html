@@ -21,12 +21,35 @@
                     </div>
                 </li>
             </ul>
+            <ul class="nav-right">
+                <li>
+                    <a type="score" id="score">
+                        <span class="stat-label">Score:</span> <span class="stat-value">0</span> 
+                    </a>
+                </li>
+                <li>
+                    <a type="tmr" id="tmr">
+                        <span class="stat-label">Timer:</span> <span class="stat-value">0:00</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="elapsedTime">
+                        <span class="stat-label">WPM:</span> <span class="stat-value">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="accuracy">
+                        <span class="stat-label">Accuracy:</span> <span class="stat-value">0%</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+        
         </nav>
         <p id="quote" class="quote"></p>
-        <p id="elapsedTime" class="elapsedTime">WPM: </p>
+        <!--<p id="elapsedTime" class="elapsedTime">WPM: </p>
         <p id="accuracy" class="accuracy">Accuracy: </p>
-         <p type="tmr" class="tmr" id="tmr">Timer</p>
+        <p type="tmr" class="tmr" id="tmr">Timer</p>-->
 
         <button type="circle" class="circle correct" id="circle">
             Click Me!
@@ -34,13 +57,11 @@
         <button type="circle" class="circle incorrect" id="redCircle">
             Click Me!
         </button>
-        
+        <!--
         <p type="score" class="score" id="score">
             Score: 0
-        </p>
-        <p type="score" class="finalscore" id="finalscore">
-            Score: 0
-        </p>
+        </p>-->
+
 
 
         <script src="script.js"></script>
