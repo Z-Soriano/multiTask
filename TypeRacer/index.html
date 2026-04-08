@@ -13,6 +13,7 @@
                     <div class="dropdown">
                         <button class="dropbtn" id="dropdown-btn">Games</button>
                         <div class="dropdown-content" id="dropdown-menu">
+                            <a id="helpBtn">How to Play</a>
                             <a class="leftText" id="leftText">Left Side Typing</a>
                             <a class="rightText" id="rightText">Right Side Typing</a>
                             <a class="justText" id="justText">Full Keyboard</a>
@@ -57,11 +58,21 @@
         <button type="circle" class="circle incorrect" id="redCircle">
             Click Me!
         </button>
+        <a class="countdown disabled" id="countdown">3</a>
         <!--
         <p type="score" class="score" id="score">
             Score: 0
         </p>-->
+        
 
+        <div id="helpModal" class="modal noshow">
+            <div class="modal-content">
+                <h2>How to Play</h2>
+                <p>Type Racer: Type the displayed text as fast as possible.</p>
+                <p>Aim Trainer: Click the bubbles as quickly and accurately as you can before time runs out.</p>
+                <button id="closeHelpBtn">Close</button>
+            </div>
+        </div>
 
 
         <script src="script.js"></script>

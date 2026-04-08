@@ -11,6 +11,9 @@ let totalTime = 30000;
 let timerInterval;
 let times = [];
 let wrongTimes = [];
+let timeout0 = 0;
+let timeout1 = 0;
+let timeout2 = 0;
 
 const quoteEl = document.getElementById("quote"); //what user will type
 //dropdown buttons for game versions
@@ -32,8 +35,7 @@ const dropdownMenu = document.getElementById("dropdown-menu");
 const startBtn = document.getElementById("btn");
 const circle = document.getElementById("circle");
 const redCircle = document.getElementById("redCircle");
-
-const delta = document.getElementById("delta");
+const countdown = document.getElementById("countdown")
 
 function toggleItem(id, show) {
   const el = document.getElementById(id);
@@ -60,8 +62,14 @@ function defaultState(){
   scoreboard.style.visibility = "hidden"
   scoreboard.textContent = "Score: 0"
   clearInterval(timerInterval)
+  countdown.style.opacity = 0
+  countdown.textContent = "3"
+  clearInterval(timeout0)
+  clearInterval(timeout1)
+  clearInterval(timeout2)
 }
 defaultState()
+
 //game listener
 leftSide.addEventListener("click",()=>{
     defaultState()
@@ -124,17 +132,32 @@ justText.addEventListener("click",()=>{
     end = 0
     circleRL = "Center"
 });
+
+
 startBtn.addEventListener("click", function() {
     defaultState()
-    circle.style.display = "inline-block";
-    redCircle.style.display = "inline-block";
-    timerDisplay.style.visibility = "visible"
-    scoreboard.style.visibility = "visible"
-    totalTime = 10000;
-    timerInterval = setInterval(updateTimer, 10);
+    /* countdown logic for start of aimtrainer */
+    countdown.style.opacity = 1
+    timeout0 = setTimeout(() => {
+      countdown.textContent = "2"
+    }, 1000);
+    timeout1 = setTimeout(() => {
+      countdown.textContent = "1"
+    }, 2000);
+    timeout2 = setTimeout(() => {
+      circle.style.display = "inline-block";
+      redCircle.style.display = "inline-block";
+      timerDisplay.style.visibility = "visible"
+      scoreboard.style.visibility = "visible"
+      countdown.style.opacity = 0
+      totalTime = 10000;
+      timerInterval = setInterval(updateTimer, 10);
+      
+      times = [];
+      randomPos();
+    }, 3000);
     
-    times = [];
-    randomPos();
+    
   });
 
 
@@ -331,4 +354,16 @@ circle.addEventListener("mouseover",()=>{
 });
 redCircle.addEventListener("mouseover",()=>{
   randomPos("red", circleRL)
+});
+
+const helpBtn = document.getElementById("helpBtn");
+const closeHelpBtn = document.getElementById("closeHelpBtn");
+const helpModal = document.getElementById("helpModal");
+
+helpBtn.addEventListener("click", () => {
+  helpModal.classList.remove("noshow");
+});
+
+closeHelpBtn.addEventListener("click", () => {
+  helpModal.classList.add("noshow");
 });

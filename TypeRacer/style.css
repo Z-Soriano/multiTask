@@ -99,7 +99,7 @@ body{
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 .quote {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -119,8 +119,24 @@ body{
 .incorrect {
   background-color: red;
 }
-.current {
-  text-decoration: underline;
+/* base current info */
+.current{
+  position: relative;
+}
+/* directly after where the base current would be located follow this css */
+.current::after {
+  content: "";
+  position: absolute;
+  right: -2px; 
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: black;
+
+  animation: blink 0.8s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
 }
 .onLeft {
   left: 5vw;
@@ -166,9 +182,9 @@ body{
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 5px 16px;
   text-decoration: none;
-  display: block; /* */
+  display: block; 
   transition: background-color 0.3s ease;
 }
 
@@ -177,10 +193,6 @@ body{
   background-color: gray; /* */
 }
 
-/* Class to show the dropdown content (added by JS) */
-.show {
-  display: block; /* */
-}
 /* aimtrainer css */
 .circle {
   position: fixed;
@@ -198,8 +210,40 @@ body{
   font-size: 16px;
   cursor: pointer; 
 }
-
+/* Class to show the dropdown content (added by JS) */
+.show {
+  display: block; /* */
+}
+.noshow{
+  display: none;
+}
 .disabled{
     opacity:0;
 }
+/* Starting countdown for aimtrainer */
+.countdown{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: white;
+  font-size: 30px;
+}
+/* Help button stuff used*/
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  /*display: none; /* 🔥 start hidden */
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
 
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+}
